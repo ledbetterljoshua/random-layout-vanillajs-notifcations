@@ -1,0 +1,235 @@
+<html>
+<head>
+    <title></title>
+<style type="text/css">
+body {
+    overflow: scroll;
+    background-color: #e9eaed;
+    color: #141823;
+    margin: 0;
+    padding: 0;
+    direction: ltr;
+    unicode-bidi: embed;
+}
+.li {
+    overflow: initial;
+    font-family: helvetica, arial, sans-serif;
+    line-height: 1.34;
+    font-size: 12px;
+    color: #141823;
+}
+#content {
+    min-height: 100px;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    width: auto;
+}
+.mainContainer {
+    border-right: 1px solid #ccc;
+    min-height: 600px;
+    background: #E4E4E4;
+}
+#glob-Container {
+    width: 976px;
+    margin: 0 auto;
+    position: relative;
+    zoom: 1;
+}
+.leftCol {
+    padding-left: 8px;
+    padding-top: 12px;
+    width: 164px;
+    display: block;
+    float: left;
+    padding: 20px 0 0 2px;
+    position: relative;
+    width: 179px;
+    word-wrap: break-word;
+    min-height: 600px;
+    box-shadow: 0 0 1px 1px #C5C5C5;
+}
+.contentCol {
+    border-left: 0;
+    margin-left: 172px;
+    padding-left: 11px;
+    padding-top: 11px;
+    color: #141823;
+    min-height: 600px;
+
+}
+.rightCol {
+    padding: 0 7px 0 0;
+    width: 280px;
+    margin-top: 0;
+    float: right;
+    word-wrap: break-word;
+    min-height: 600px;
+    box-shadow: 0 0 1px 1px #C5C5C5;
+}
+.contentArea {
+    width: 465px;
+    padding-left: 0;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    float: left;
+    margin-right: 0;
+    padding: 0 20px;
+    min-height: 600px;
+}
+.incontentArea {
+    position: relative;
+    width: 100%;
+    min-height: 280px;
+    background: #fff;
+    margin: 0 0 10px 0;
+    box-shadow: 0 0 1px 1px #C5C5C5;
+    min-height: 360px !important;
+}
+ul {
+    padding: 0px; 
+}
+ul li {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #BFBFBF;
+}
+li.new {
+    color:red;
+        background: #E8F3FF;
+}
+
+li.old.new {
+    color: black;
+}
+li.notif {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #BFBFBF;
+    text-align: left;
+}
+li, li.notif, li.old.new, li.new  {
+    transition: all 2s ease-in-out;
+}
+.noBorder {
+    border: none !important; 
+}
+</style>
+
+</head>
+<body>
+<div class="li">
+    <div id="glob-container">
+        <div id="content">
+            <div class="mainContainer">
+                <div class="leftCol">
+                    <ul>
+                        <li class="share">share</li>
+                        <li class="like">like</li>
+                        <li class="poke">poke</li>
+                        <li class="love">love</li>
+                    </ul>
+                </div>
+                <div class="contentCol">
+                    <div class="rightCol"></div>
+                    <div class="contentArea">
+                        <div class="incontentArea hidden" style="max-height: 360px;overflow-y:scroll;overflow-x: hidden;margin-top: 50px;"></div>
+                        <div class="incontentArea" style="height: 50px !important; min-height: 50px !important; position: absolute; top: 0; width: 465px;">
+                            <p class="clickforNotifs" style="padding: 10px; cursor: pointer; background: #fff; margin: 1px !important; display: inline; line-height: 4;">Notifications</p>
+                         <p class="incontentAreaP" style="display: inline; color: red; border-radius: 100px; border: 1px solid; padding: 4px 8px;"></p> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+(function(){
+
+    var app = {};
+    var _self = app;
+
+    app.dataBase = [];
+
+    app.notifSection   = document.getElementsByClassName('incontentArea')[0];
+    app.clickforNotifs = document.getElementsByClassName('clickforNotifs')[0];
+    app.notifSectionNo = document.getElementsByClassName('incontentAreaP')[0];
+
+    app.share = document.getElementsByClassName('share')[0];
+    app.like  = document.getElementsByClassName('like')[0];
+    app.poke  = document.getElementsByClassName('poke')[0];
+    app.love  = document.getElementsByClassName('love')[0];
+
+    app.dataBase.checked = true;
+    app.dataBase.mostRecentlyChecked;
+
+    app.checkNew = function() {
+        _self.newNotifs = document.getElementsByClassName("new");
+        if(_self.dataBase.checked) {
+            _self.notifSectionNo.innerText = ""
+            _self.notifSectionNo.className = "incontentAreaP noBorder";
+        } else {
+            _self.notifSectionNo.innerText = _self.newNotifs.length;
+            _self.notifSectionNo.className = "incontentAreaP";
+        }
+    }
+    app.checkRecent = function() {
+        _self.newNotifs = document.getElementsByClassName("new");
+        if(_self.dataBase.checked) {
+            _self.notifSectionNo.innerText = ""
+            _self.notifSectionNo.className = "incontentAreaP noBorder";
+        } else {
+            _self.notifSectionNo.innerText = _self.newNotifs.length;
+            _self.notifSectionNo.className = "incontentAreaP";
+        }
+    }
+    
+    app.clicker = function(clicked, action) {
+        _self.Notifs = document.getElementsByClassName("notif");
+        clicked.onclick = function() {
+            _self.node = document.createElement("LI");   
+            _self.node.className = "notif new";              
+            _self.text = {};
+            _self.text.inner =  "Joshua Ledbetter has "+action+" your profile";
+            _self.text.recent = true;
+            _self.textnode = document.createTextNode(_self.text.inner);  
+            _self.node.appendChild(_self.textnode);
+            _self.notifSection.insertBefore(_self.node,_self.Notifs[0])
+            //_self.notifSection.appendChild(node);
+            _self.dataBase.unshift(_self.text);
+
+            _self.dataBase.checked = false;
+            _self.checkNew();
+
+            _self.notifSection.className = "incontentArea hidden";
+            console.log(this);
+        }
+    }
+
+    app.clickforNotifs.onclick = function() {
+        _self.dataBase.checked = true;
+        _self.checkNew();
+
+        _self.notifSection.className = "incontentArea";
+        _self.newElem = document.getElementsByClassName("notif");
+
+        for(var i = 0; i < _self.newElem.length; i++) {
+            console.log(_self.newElem[i])
+            console.log("________________________")
+            _self.newElem[i].className = "notif";
+        }
+
+    }
+
+    app.checkNew();
+    app.clicker(app.share, "shared");
+    app.clicker(app.like, "liked");
+    app.clicker(app.poke, "poked");
+    app.clicker(app.love, "loved");
+
+}());
+</script>
+</body>
+</html>
